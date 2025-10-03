@@ -90,8 +90,14 @@ func (gc *GradeCalculator) calculateNumericalGrade() int {
 func computeAverage(grades []Grade) int {
 	sum := 0
 
-	for _, grade := range grades {
-    	sum += grade.Grade // Sum the actual Grade value from the struct
+	// NEW CODE: Handle empty list to prevent division by zero panic
+	if len(grades) == 0 {
+		return 0
 	}
+
+	for _, grade := range grades {
+		sum += grade.Grade
+	}
+
 	return sum / len(grades)
 }
