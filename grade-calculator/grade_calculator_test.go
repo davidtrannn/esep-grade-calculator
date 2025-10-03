@@ -155,3 +155,22 @@ func TestAddGradeDefaultCase(t *testing.T) {
 		t.Errorf("Expected GetFinalGrade to return '%s' after adding unknown type; got '%s'", expected_value, actual_value)
 	}
 }
+
+// Test the String() method on GradeType to cover all cases and the mapping.
+func TestGradeTypeString(t *testing.T) {
+	tests := []struct {
+		gType    GradeType
+		expected string
+	}{
+		{Assignment, "assignment"},
+		{Exam, "exam"},
+		{Essay, "essay"},
+	}
+
+	for _, test := range tests {
+		actual := test.gType.String()
+		if actual != test.expected {
+			t.Errorf("GradeType %d.String() failed. Expected '%s', got '%s'", test.gType, test.expected, actual)
+		}
+	}
+}
