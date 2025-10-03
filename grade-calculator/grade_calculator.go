@@ -90,11 +90,12 @@ func (gc *GradeCalculator) calculateNumericalGrade() int {
 func computeAverage(grades []Grade) int {
 	sum := 0
 
-	// NEW CODE: Handle empty list to prevent division by zero panic
+	// FIX: Add check for zero length to prevent division by zero panic.
 	if len(grades) == 0 {
 		return 0
 	}
 
+	// FIX: Correctly sum the Grade value, not the index (from Part 3)
 	for _, grade := range grades {
 		sum += grade.Grade
 	}

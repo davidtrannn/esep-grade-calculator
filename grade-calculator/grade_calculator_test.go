@@ -50,7 +50,9 @@ func TestGetGradeF(t *testing.T) {
 	}
 }
 
-// Test for the empty grade lists (numerical average should be 0, final grade "F")
+// --- NEW TESTS FOR 100% COVERAGE ---
+
+// Test for the empty grade lists, hitting the computeAverage (len == 0) branch.
 func TestEmptyGradeLists(t *testing.T) {
 	gc := NewGradeCalculator()
 	expected_value := "F"
@@ -62,11 +64,9 @@ func TestEmptyGradeLists(t *testing.T) {
 	}
 }
 
-// Test numerical boundaries (all numerical grades are the same to simplify calculation)
-
+// Test numerical boundary for A (90.0).
 func TestBoundaryA(t *testing.T) {
 	gc := NewGradeCalculator()
-	// All 90s results in a final grade of 90.0
 	gc.AddGrade("Assignment", 90, Assignment)
 	gc.AddGrade("Exam", 90, Exam)
 	gc.AddGrade("Essay", 90, Essay)
@@ -79,9 +79,9 @@ func TestBoundaryA(t *testing.T) {
 	}
 }
 
-func TestBoundaryB(t *testing.T) {
+// Test numerical boundary for B (80.0).
+func TestBoundaryBEdge(t *testing.T) {
 	gc := NewGradeCalculator()
-	// All 80s results in a final grade of 80.0
 	gc.AddGrade("Assignment", 80, Assignment)
 	gc.AddGrade("Exam", 80, Exam)
 	gc.AddGrade("Essay", 80, Essay)
@@ -94,9 +94,9 @@ func TestBoundaryB(t *testing.T) {
 	}
 }
 
+// Test numerical boundary for C (70.0).
 func TestBoundaryC(t *testing.T) {
 	gc := NewGradeCalculator()
-	// All 70s results in a final grade of 70.0
 	gc.AddGrade("Assignment", 70, Assignment)
 	gc.AddGrade("Exam", 70, Exam)
 	gc.AddGrade("Essay", 70, Essay)
@@ -109,9 +109,9 @@ func TestBoundaryC(t *testing.T) {
 	}
 }
 
+// Test numerical boundary for D (60.0).
 func TestBoundaryD(t *testing.T) {
 	gc := NewGradeCalculator()
-	// All 60s results in a final grade of 60.0
 	gc.AddGrade("Assignment", 60, Assignment)
 	gc.AddGrade("Exam", 60, Exam)
 	gc.AddGrade("Essay", 60, Essay)
@@ -124,9 +124,9 @@ func TestBoundaryD(t *testing.T) {
 	}
 }
 
+// Test F grade (numerical grade 59).
 func TestBoundaryF(t *testing.T) {
 	gc := NewGradeCalculator()
-	// All 59s results in a final grade of 59.0 (Failing grade)
 	gc.AddGrade("Assignment", 59, Assignment)
 	gc.AddGrade("Exam", 59, Exam)
 	gc.AddGrade("Essay", 59, Essay)
@@ -136,5 +136,22 @@ func TestBoundaryF(t *testing.T) {
 
 	if actual_value != expected_value {
 		t.Errorf("Expected GetFinalGrade to return '%s' for numerical grade 59; got '%s'", expected_value, actual_value)
+	}
+}
+
+// Test the default case of the switch statement in AddGrade (to cover the last branch).
+func TestAddGradeDefaultCase(t *testing.T) {
+	gc := NewGradeCalculator()
+
+	// Use an undefined GradeType (e.g., 99) to hit the default branch
+	undefinedType := GradeType(99)
+	gc.AddGrade("Unknown Item", 50, undefinedType)
+
+	// Final grade should still be "F" since no valid grades were added.
+	expected_value := "F"
+	actual_value := gc.GetFinalGrade()
+
+	if actual_value != expected_value {
+		t.Errorf("Expected GetFinalGrade to return '%s' after adding unknown type; got '%s'", expected_value, actual_value)
 	}
 }
